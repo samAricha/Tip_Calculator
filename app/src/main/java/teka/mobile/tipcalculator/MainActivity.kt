@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,15 +57,35 @@ fun TipCalculatorScreen(){
             fontSize = 24.sp,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
+
         Spacer(modifier = Modifier.height(16.dp))
-        EditNumberField(label = R.string.bill_amount, value = amountInput, onValueChange = {amountInput = it})
-        EditNumberField(label = R.string.how_was_the_service, value = tipInput, onValueChange = {tipInput = it})
+
+        EditNumberField(label = R.string.bill_amount,
+            value = amountInput,
+            onValueChange = {amountInput = it},
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Next//ime="input method editor
+            ),
+        )
+
+        EditNumberField(label = R.string.how_was_the_service,
+            value = tipInput,
+            onValueChange = {tipInput = it},
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done//ime="input method editor
+            ),
+        )
+
         Spacer(modifier = Modifier.height(24.dp))
+
         Text(
             text = stringResource(id = R.string.tip_amount, tip),
             modifier = Modifier.align(Alignment.CenterHorizontally),
             fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,)
+            fontWeight = FontWeight.Bold,
+        )
 
     }
 }
@@ -73,6 +94,7 @@ fun TipCalculatorScreen(){
 fun EditNumberField(@StringRes label: Int,
                     value: String,
                     onValueChange: (String) -> Unit,
+                    keyboardOptions: KeyboardOptions,
                     modifier: Modifier = Modifier){
 
     TextField(
@@ -84,7 +106,7 @@ fun EditNumberField(@StringRes label: Int,
                 modifier = Modifier.fillMaxWidth()
             )
         },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        keyboardOptions = keyboardOptions,
         singleLine = true
     )
 }
